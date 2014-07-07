@@ -114,8 +114,8 @@ example4
 // exactly what you should expect
 //let example5 = Maybe.ret(5) >> Optional.ret(5);
 //let example6 = Maybe.ret(5) >>= { _ in Optional.ret(true) };
-example5
-example6
+//example5
+//example6
 
 
 // examples fmap
