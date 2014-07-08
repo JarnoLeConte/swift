@@ -26,7 +26,7 @@ func >> <MA : Monad, MB : Monad where MA.U == MB.U>(lhs: MA, rhs: MB) -> MB {
 protocol Functor {
     typealias A
     typealias FB
-    mutating func fmap<B>(transform: (A) -> B) -> FB
+    func fmap<B>(transform: (A) -> B) -> FB
 }
 
 
@@ -113,13 +113,13 @@ example3
 example4
 
 // As expected, you can't change the Monad Type
-//let example5 = Maybe.ret(5) >> Optional.ret(5);
-//let example6 = Maybe.ret(5) >>= { _ in Optional.ret(true) };
+let example5 = Maybe.ret(5) >> Optional.ret(5)
+let example6 = Maybe.ret(5) >>= { _ in Optional.ret(true) }
 
 
 // examples fmap
 
-let example7 = Optional<Bool>.Some(true); // Why is fmap not present in optionals?
+let example7 = Optional<Bool>.Some(true).fmap({x in !x})
 let example8 = Maybe<Int>.Just(7).fmap({ x in x+1 }).fmap({x in x==8})
 let example9 = Maybe<Int>.Just(7).fmap({ x in true });
 
