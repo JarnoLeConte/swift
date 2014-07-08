@@ -25,8 +25,8 @@ func >> <MA : Monad, MB : Monad where MA.U == MB.U>(lhs: MA, rhs: MB) -> MB {
 
 protocol Functor {
     typealias A
-    typealias FB : Functor
-    func fmap<B>(transform: (A) -> B) -> FB
+    typealias FB
+    mutating func fmap<B>(transform: (A) -> B) -> FB
 }
 
 
@@ -47,7 +47,7 @@ enum Maybe<T> {
 extension Maybe : Monad, Functor {
     typealias A = T
     typealias U = Maybe<()>
-
+    
     static func ret(value: A) -> Maybe<A> {
         return .Just(value);
     }
@@ -106,15 +106,14 @@ let example2 = Maybe.ret(5) >>= { x in Maybe.ret(x+1) };
 let example3 = Maybe.ret(5) >> Maybe.ret(true);
 let example4 = Maybe.ret(5) >>= { _ in Maybe.ret(true) };
 
-// It is NOT allowed to change the monad type (Maybe to Optional),
-// exactly what you should expect
+// As expected, you can't change the Monad Type
 //let example5 = Maybe.ret(5) >> Optional.ret(5);
 //let example6 = Maybe.ret(5) >>= { _ in Optional.ret(true) };
 
 
 // examples fmap
 
-let example7 = Optional<Int>.Some(1).fmap({ x in x+1 });
-let example8 = Maybe<Int>.Just(7).fmap({ x in x+1 })
+let example7 = Optional<Bool>.Some(true); // Why is fmap not present in optionals?
+let example8 = Maybe<Int>.Just(7).fmap({ x in x+1 }).fmap({x in x==8})
 let example9 = Maybe<Int>.Just(7).fmap({ x in true });
 
